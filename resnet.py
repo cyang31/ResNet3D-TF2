@@ -7,11 +7,8 @@ mimic from https://github.com/SeuTao/RSNA2019_Intracranial-Hemorrhage-Detection/
 
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras.activations import relu
 from tensorflow.keras.layers import *
 from tensorflow.keras import Model
-from tensorflow.keras import layers as Layers
-from tensorflow_addons.layers import *
 from functools import partial
 
 def conv3x3x3(channels, strides=1, dilation_rate=1):
