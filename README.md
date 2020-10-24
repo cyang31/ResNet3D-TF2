@@ -5,8 +5,8 @@ This is a python code of ResNet3D model based on tensorflow 2.3.0 via subclassin
 python 3
 tensorflow 2.3.0
 ```
-## paper
-Chen, Yunpeng, Yannis Kalantidis, Jianshu Li, Shuicheng Yan, and Jiashi Feng. "Multi-fiber networks for video recognition." In Proceedings of the european conference on computer vision (ECCV), pp. 352-367. 2018.
+## reference
+Hara, Kensho, Hirokatsu Kataoka, and Yutaka Satoh. "Can spatiotemporal 3d cnns retrace the history of 2d cnns and imagenet?." In Proceedings of the IEEE conference on Computer Vision and Pattern Recognition, pp. 6546-6555. 2018.
 ## input data
 The input data format is default as NxHxWxDxC, namely ```data_format="channels_last"```. 
 ## output data
