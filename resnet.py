@@ -96,8 +96,6 @@ class ResNet3D(Model):
         
         self.pool = GlobalAveragePooling3D(data_format='channels_last')
         self.flatten = Flatten()
-        self.fc_feat = Dense(feat_num, activation='relu')
-        self.bn2 = BatchNormalization(axis=-1)
         self.fc = Dense(num_class, activation='linear')
         
     def _make_layer(self, block, channels, blocks_num, shortcut_type, stride=1, dilation_rate=1, name=''):
@@ -129,18 +127,13 @@ class ResNet3D(Model):
         x = self.layer4(x)
         
         x = self.pool(x)
-        #x = AdaptiveAveragePooling3D((1,1,1), data_format='channels_last')(x)
         x = self.flatten(x)
-        #x = self.fc_feat(x)
-        #x = self.bn2(x) 
-        #x = self.relu(x)
         x = self.fc(x)
         return x
     
     def model(self, input_shape):
         input = Input(shape=input_shape,name='input')
         model=Model(inputs=input,outputs=self.call(input))
-        
         return model
 
 
