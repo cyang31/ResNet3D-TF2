@@ -175,6 +175,4 @@ model = ResNet3D(BottleNeck, [3, 8, 36, 3])
 """Constructs a ResNet-34 model.
 model = ResNet3D(BottleNeck, [3, 24, 36, 3])
 """
-#model = ResNet34()
-#model.build(input_shape=(1, 480, 480, 3))
 #model.summary()
