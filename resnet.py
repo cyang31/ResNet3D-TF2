@@ -150,19 +150,19 @@ model = ResNet3D(BasicBlock, [2, 2, 2, 2])
 model = ResNet3D(BasicBlock, [3, 4, 6, 3])
 """
 # resnet50
-"""Constructs a ResNet-34 model.
+"""Constructs a ResNet-50 model.
 model = ResNet3D(BottleNeck, [3, 4, 6, 3])
 """
 # resnet101
-"""Constructs a ResNet-34 model.
+"""Constructs a ResNet-101 model.
 model = ResNet3D(BottleNeck, [3, 4, 23, 3])
 """
 # resnet152
-"""Constructs a ResNet-34 model.
+"""Constructs a ResNet-152 model.
 model = ResNet3D(BottleNeck, [3, 8, 36, 3])
 """
 # resnet200
-"""Constructs a ResNet-34 model.
+"""Constructs a ResNet-200 model.
 model = ResNet3D(BottleNeck, [3, 24, 36, 3])
 """
 #model.summary()
