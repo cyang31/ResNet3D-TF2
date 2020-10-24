@@ -9,6 +9,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.layers import *
 from tensorflow.keras import Model
+from tensorflow.keras import layers as Layers
 from functools import partial
 
 def conv3x3x3(channels, strides=1, dilation_rate=1):
