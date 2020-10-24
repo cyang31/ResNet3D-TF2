@@ -38,8 +38,6 @@ class ResBlock(Model):
         
     def call(self, x):
         residual = x
-        #paddings = tf.constant([[0,0],[self.dilation, self.dilation], [self.dilation, self.dilation],[self.dilation,self.dilation],[0,0]])
-        #x1 = tf.pad(x, paddings, 'CONSTANT')
         x1 = self.conv1(x)
         x1 = self.bn1(x1)
         x1 = self.relu(x1)
@@ -99,7 +97,6 @@ class ResNet3D(Model):
         self.layer3 = self._make_layer(block, 128*2, layers[2], shortcut_type, stride=1, dilation_rate=2, name='Layer3')
         self.layer4 = self._make_layer(block, 256*2, layers[3], shortcut_type, stride=1, dilation_rate=4, name='Layer4')
         
-        #self.pool = AveragePooling3D(pool_size=(2,2,2), data_format='channels_last') #(1,1,1)
         self.pool = GlobalAveragePooling3D(data_format='channels_last')
         self.flatten = Flatten()
         self.fc_feat = Dense(feat_num, activation='relu')
@@ -124,13 +121,9 @@ class ResNet3D(Model):
         return keras.Sequential(layers=layers, name=name)
     
     def call(self, x):
-        #paddings = tf.constant([[0,0],[3,3],[3,3],[3,3],[0,0]]) # N H W D C
-        #x = tf.pad(x, paddings, "CONSTANT")
         x = self.conv1(x)
         x = self.bn(x)
         x = self.relu(x)
-        #paddings = tf.constant([[0,0],[1,1],[1,1],[1,1],[0,0]]) # N H W D C
-        #x = tf.pad(x, paddings, "CONSTANT")
         x = self.mp1(x)
 
         x = self.layer1(x)
@@ -147,9 +140,9 @@ class ResNet3D(Model):
         x = self.fc(x)
         return x
     
-    def model(self, input_shape_spatial):
-        input_spatial = Input(shape=input_shape_spatial,name='in_spatial')
-        model=Model(inputs=input_spatial,outputs=self.call(input_spatial))
+    def model(self, input_shape):
+        input = Input(shape=input_shape,name='input')
+        model=Model(inputs=input,outputs=self.call(input))
         
         return model
 
