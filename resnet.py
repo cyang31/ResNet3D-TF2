@@ -89,7 +89,7 @@ class ResNet3D(Model):
         self.conv1 = Conv3D(64, kernel_size=7, strides=(2,2,2), padding='same', kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False)
         self.bn = BatchNormalization(axis=4)
         self.relu = ReLU()
-        self.mp1 = MaxPooling3D(pool_size=(3,3,3), strides=2, padding='valid', data_format='channels_last')
+        self.mp1 = MaxPooling3D(pool_size=(3,3,3), strides=2, padding='same', data_format='channels_last')
         self.layer1 = self._make_layer(block, 64, layers[0], shortcut_type, stride=1, name='Layer1')
         self.layer2 = self._make_layer(block, 64*2, layers[1], shortcut_type, stride=2, name='Layer2')
         self.layer3 = self._make_layer(block, 128*2, layers[2], shortcut_type, stride=1, dilation_rate=2, name='Layer3')
