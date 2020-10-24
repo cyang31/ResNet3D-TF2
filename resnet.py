@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: Chunhui Yang
-mimic from https://github.com/SeuTao/RSNA2019_Intracranial-Hemorrhage-Detection/blob/master/3DNet/models/resnet.py a pytorch version
+mimic from https://github.com/kenshohara/3D-ResNets-PyTorch/blob/master/models/resnet.py a pytorch version
 """
 
 import tensorflow as tf
