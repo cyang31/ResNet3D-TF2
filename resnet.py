@@ -10,10 +10,11 @@ from tensorflow import keras
 from tensorflow.keras.layers import *
 from tensorflow.keras import Model
 from tensorflow.keras import layers as Layers
+from tensorflow.keras.regularizers import l2
 from functools import partial
 
 def conv3x3x3(channels, strides=1, dilation_rate=1):
-    return Conv3D(channels, kernel_size=3, strides=strides, padding='same', dilation_rate=dilation_rate, kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False)
+    return Conv3D(channels, kernel_size=3, strides=strides, padding='same', dilation_rate=dilation_rate, kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False, kernel_regularizer=l2(1e-4))
 
 def downsample_basic_block(x, channels, stride):
     out = AveragePooling3D(pool_size=1, strides=stride)(x)
@@ -51,11 +52,11 @@ class BottleNeck(Model):
     expansion = 4
     def __init__(self, channels, strides=1, dilation_rate=1, downsample=None, names=''):
         super(BottleNeck, self).__init__()
-        self.conv1 = Conv3D(channels, kernel_size=1, kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False)
+        self.conv1 = Conv3D(channels, kernel_size=1, kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False, kernel_regularizer=l2(1e-4))
         self.bn1 = BatchNormalization(axis=4)
-        self.conv2 = Conv3D(channels, kernel_size=3, strides=strides, padding='same', kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False)
+        self.conv2 = Conv3D(channels, kernel_size=3, strides=strides, padding='same', kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False, kernel_regularizer=l2(1e-4))
         self.bn2 = BatchNormalization(axis=4)
-        self.conv3 = Conv3D(channels*4, kernel_size=1, kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False)
+        self.conv3 = Conv3D(channels*4, kernel_size=1, kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False, kernel_regularizer=l2(1e-4))
         self.bn3 = BatchNormalization(axis=4)
         self.relu = ReLU()
         self.downsample = downsample
@@ -86,7 +87,7 @@ class ResNet3D(Model):
     def __init__(self, block, layers, feat_num=128, shortcut_type='B', num_class=2):
         super(ResNet3D, self).__init__(name='ResNet3D')
         self.in_channels = 64
-        self.conv1 = Conv3D(64, kernel_size=7, strides=(2,2,2), padding='same', kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False)
+        self.conv1 = Conv3D(64, kernel_size=7, strides=(2,2,2), padding='same', kernel_initializer='he_normal', bias_initializer='zeros', use_bias=False, kernel_regularizer=l2(1e-4))
         self.bn = BatchNormalization(axis=4)
         self.relu = ReLU()
         self.mp1 = MaxPooling3D(pool_size=(3,3,3), strides=2, padding='same', data_format='channels_last')
@@ -97,7 +98,7 @@ class ResNet3D(Model):
         
         self.pool = GlobalAveragePooling3D(data_format='channels_last')
         self.flatten = Flatten()
-        self.fc = Dense(num_class, activation='linear')
+        self.fc = Dense(num_class, activation='linear', kernel_regularizer=l2(1e-4))
         
     def _make_layer(self, block, channels, blocks_num, shortcut_type, stride=1, dilation_rate=1, name=''):
         downsample = None
